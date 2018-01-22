@@ -30,7 +30,8 @@ if($numberOfRows == 0){
     echo "<tr><th>Bewerkingen</th><th>Achternaam</th><th>Voornaam</th><th>Gebruikersnaam</th><th>E-mail</th></tr>";
         foreach($userRows as $userRow){
             echo "<tr>";
-            echo "<td><a href='?p=manageusers&action=delete&id={$userRow['id']}'>Verwijder</a><br/><a href='?p=manageusers&action=edit&id={$userRow['id']}'>Bewerk</a></td>
+            echo "<td><a href='?p=manageusers&action=delete&id={$userRow['id']}'><button class='delete'>Verwijder</button></a><br/>
+                        <a href='?p=manageusers&action=edit&id={$userRow['id']}'><button class='edit'>Bewerk</button></a></td>
                     <td>{$userRow['lastname']}</td>
                     <td>{$userRow['firstname']}</td>
                     <td>{$userRow['username']}</td>

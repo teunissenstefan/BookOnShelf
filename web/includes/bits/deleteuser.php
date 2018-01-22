@@ -49,7 +49,7 @@
             echo "{$userRow['username']}<br />";
             echo "{$userRow['email']}<br /><hr>";
             echo "Weet je zeker dat je deze gebruiker wilt verwijderen?<br/>";
-            echo "<a href='?p=manageusers&action=delete&id={$_GET['id']}&confirm=true'><button class='delete'>Ja</button></a> <a href='?p=manageusers'><button>Nee</button></a>";
+            echo "<a href='?p=manageusers&action=delete&id={$_GET['id']}&confirm=true'><button class='delete'>Ja</button></a> <a href='?p=manageusers'><button class='edit'>Nee</button></a>";
         }else{
             echo "Gebruiker niet gevonden";
         }

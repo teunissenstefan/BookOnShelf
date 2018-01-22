@@ -47,6 +47,15 @@ button,input[type="text"],input[type="password"],input[type="submit"]{
 button.delete:hover{
     background-color:red;
 }
+button.edit:hover{
+    background-color:orange;
+}
+button,input[type="submit"]{
+    cursor: pointer;
+}
+td > a > button{
+    width:100%;
+}
 .topMenu > h1{
     margin:0;
 }
