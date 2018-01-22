@@ -3,6 +3,8 @@
         SELECT 
             *
         FROM gebruikers
+        WHERE 
+            rank <> 1
         ORDER BY
             lastname ASC
     "; 
@@ -28,7 +30,7 @@ if($numberOfRows == 0){
     echo "<tr><th>Bewerkingen</th><th>Achternaam</th><th>Voornaam</th><th>Gebruikersnaam</th><th>E-mail</th></tr>";
         foreach($userRows as $userRow){
             echo "<tr>";
-            echo "<td><a href='?p=manageusers&action=delete'>Verwijder</a><br/><a href='?p=manageusers&action=edit'>Bewerk</a></td>
+            echo "<td><a href='?p=manageusers&action=delete&id={$userRow['id']}'>Verwijder</a><br/><a href='?p=manageusers&action=edit&id={$userRow['id']}'>Bewerk</a></td>
                     <td>{$userRow['lastname']}</td>
                     <td>{$userRow['firstname']}</td>
                     <td>{$userRow['username']}</td>
