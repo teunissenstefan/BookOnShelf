@@ -6,6 +6,8 @@
                 if($isAdmin){
         ?>
                 <li><a href="?p=manageusers">Gebruikers beheren</a></li>
+                <li><a href="?p=manageauthors">Auteurs beheren</a></li>
+                <li><a href="?p=managebooks">Boeken beheren</a></li>
         <?php
                 }
         ?>
@@ -13,7 +15,7 @@
         <?php
             }else{
         ?>
-            <li><a href="?p=home">Inloggen</a></li>
+                <li><a href="?p=home">Inloggen</a></li>
         <?php
             }
         ?>

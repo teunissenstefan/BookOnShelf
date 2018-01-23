@@ -31,9 +31,13 @@
         die("Failed to run query (2)"); 
     } 
     $row = $stmt->fetch();
-    $_SESSION['user']['firstName'] = $row['firstname'];
-    $_SESSION['user']['lastName'] = $row['lastname'];
-    $_SESSION['user']['username'] = $row['username'];
-    $_SESSION['user']['email'] = $row['email'];
-    $_SESSION['user']['rank'] = $row['rank'];
+    if($numberOfRows < 1){
+        header("Location: ?p=logout"); 
+    }else{
+        $_SESSION['user']['firstName'] = $row['firstname'];
+        $_SESSION['user']['lastName'] = $row['lastname'];
+        $_SESSION['user']['username'] = $row['username'];
+        $_SESSION['user']['email'] = $row['email'];
+        $_SESSION['user']['rank'] = $row['rank'];
+    }
 ?>

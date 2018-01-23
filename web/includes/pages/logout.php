@@ -2,7 +2,7 @@
      
     unset($_SESSION['user']); 
      
-    header("Location: ?page=home"); 
+    header("Location: ?p=home"); 
     die("Redirecting");
 
 ?>

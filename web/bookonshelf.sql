@@ -1,15 +1,13 @@
 ﻿-- phpMyAdmin SQL Dump
--- version 4.7.0
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 22 jan 2018 om 15:31
--- Serverversie: 10.1.26-MariaDB
--- PHP-versie: 7.1.8
+-- Gegenereerd op: 23 jan 2018 om 12:00
+-- Serverversie: 10.1.19-MariaDB
+-- PHP-versie: 5.6.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -53,7 +51,7 @@ CREATE TABLE `boeken` (
 --
 
 INSERT INTO `boeken` (`id`, `title`, `description`, `isbn13`, `auteursid`, `takenby`) VALUES
-('ok3eji4il3osk2o', 'Mijn pure keuken', 'Als model heeft Pascale Naessens jarenlang een strijd gevoerd met haar eetgewoontes. Ze weigerde een leven te leiden waarbij ze calorieën moest tellen en niet meer kon genieten van koken en tafelen. En dus ging ze op zoek naar een andere manier van eten waarbij ze lekker en voldoende kon eten mét respect voor haar lichaam en lijn. Naar een manier die zowel het model, de levensgenieter als de romanticus in haar tevreden stelde. En haar echtgenoot Paul Jambers, want de liefde van de man gaat immers door de maag.\r\n\r\nPascale vond haar evenwicht in de pure keuken waar ze van kon genieten zonder schuldgevoel. De basis van deze keuken zijn goede combinaties, gezonde ingrediënten en de juiste vetten. De verrassing zit \'m in de eenvoud. Haar gerechten zijn speciaal en toch eenvoudig, ook om te bereiden. Al haar recepten en ondervindingen bundelde ze in haar eerste kookboek Mijn pure keuken. Een boek met veelal mediterraan geïnspireerde recepten op basis van vis, olijfolie, groenten en verse kruiden. En af en toe een stukje vlees voor de vitamine B12.\r\n\r\nAlle gerechten zijn samengesteld volgens een combinatiedieet: niemand zal er dus van verdikken en er zal eindelijk komaf gemaakt worden met dat opgeblazen gevoel.\r\nPascale en Paul kiezen bewust voor de pure keuken en laten de romantiek hoogtij vieren aan tafel.', 9789020926651, '0', '');
+('ok3eji4il3osk2o', 'Mijn pure keuken', 'Als model heeft Pascale Naessens jarenlang een strijd gevoerd met haar eetgewoontes. Ze weigerde een leven te leiden waarbij ze calorieën moest tellen en niet meer kon genieten van koken en tafelen. En dus ging ze op zoek naar een andere manier van eten waarbij ze lekker en voldoende kon eten mét respect voor haar lichaam en lijn. Naar een manier die zowel het model, de levensgenieter als de romanticus in haar tevreden stelde. En haar echtgenoot Paul Jambers, want de liefde van de man gaat immers door de maag.\r\n\r\nPascale vond haar evenwicht in de pure keuken waar ze van kon genieten zonder schuldgevoel. De basis van deze keuken zijn goede combinaties, gezonde ingrediënten en de juiste vetten. De verrassing zit ''m in de eenvoud. Haar gerechten zijn speciaal en toch eenvoudig, ook om te bereiden. Al haar recepten en ondervindingen bundelde ze in haar eerste kookboek Mijn pure keuken. Een boek met veelal mediterraan geïnspireerde recepten op basis van vis, olijfolie, groenten en verse kruiden. En af en toe een stukje vlees voor de vitamine B12.\r\n\r\nAlle gerechten zijn samengesteld volgens een combinatiedieet: niemand zal er dus van verdikken en er zal eindelijk komaf gemaakt worden met dat opgeblazen gevoel.\r\nPascale en Paul kiezen bewust voor de pure keuken en laten de romantiek hoogtij vieren aan tafel.', 9789020926651, '0', '');
 
 -- --------------------------------------------------------
 
@@ -77,12 +75,7 @@ CREATE TABLE `gebruikers` (
 --
 
 INSERT INTO `gebruikers` (`id`, `username`, `firstname`, `lastname`, `password`, `salt`, `email`, `rank`) VALUES
-('4gqn2myizvok', 'teunissenstefan', 'Stefan', 'Teunissen', '7b1606530f805a3bd6d8ce741ccb504e810d048d306824f9b29f18f84645f59e', '18d56de61e173783', 'stefanteunissen1@gmail.com', 1),
-('asdsad', 'sadsadsad', 'sdasdasda', 'dasdsadsa', 'dsadasd', 'asdasdasd', 'asdsadas', 1),
-('dasdsa', 'dsadsad', 'sadsa', 'dasd', 'asdadas', 'dsadsadsadsa', 'dsadsa', 0),
-('dfdsfds', 'fdsfdsfds', 'fdsfds', 'fdsfds', 'fdsfdsf', 'dsfdsfds', 'fds', 0),
-('dsadsad', 'asdadsa', 'sadsadsa', 'dsadsa', 'dasds', 'adsadsa', 'dsadsa', 0),
-('sdsadasd', 'sadasdsad', 'asdasd', 'asdsadsa', 'dsadas', 'dsads', 'adasda', 0);
+('4sjy2gmf0h6a', 'appelsap', 'Appel', 'Sap', 'b2aa03db90985d28f73c249bd0e743d71d0334009165ea6c14b443e26221f33d', '5527833130f54791', 'appel@sap.nl', 0);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -99,7 +92,6 @@ ALTER TABLE `auteurs`
 --
 ALTER TABLE `gebruikers`
   ADD PRIMARY KEY (`id`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
