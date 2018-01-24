@@ -181,7 +181,7 @@ if(!empty($_POST)){
             echo $ex;
         } 
         
-        header("Location: ?p=manageusers"); 
+        header("Location: ?p=".DisplayGetVar('p')); 
     }
 }
     ?>
@@ -219,7 +219,7 @@ if(!empty($_POST)){
     <?php } ?>
 <?php } ?>
 
-    <form action="?p=manageusers&action=add&id=<?php echo $_GET['id']; ?>" method="post">
+    <form action="?p=<?php echo DisplayGetVar('p'); ?>&action=add&id=<?php echo $_GET['id']; ?>" method="post">
         <label for="inputFirstName">Voornaam</label><br />
         <input type="text" id="inputFirstName" name="firstname" placeholder="Voornaam" value="<?php echo !empty($_POST['firstname']) ? $_POST['firstname'] : ''; ?>"><br />
         <label for="inputLastName">Achternaam</label><br />
@@ -233,5 +233,5 @@ if(!empty($_POST)){
         <label for="inputRank">Rang (1=beheerder,0=standaard)</label><br />
         <input type="rank" id="inputRank" name="rank" placeholder="0" value="0"><br />
         <button type="submit" class="add">Toevoegen</button>
-        <a href='?p=manageusers' class="linkbutton edit">Annuleren</a>
+        <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
     </form>

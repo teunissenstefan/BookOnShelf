@@ -4,7 +4,7 @@
     }  
 ?>
 <div class="topMenu">
-    <h1>Gebruikers</h1>
+    <h1>Auteurs</h1>
     <?php   if(!isset($_GET['action'])||(isset($_GET['action'])&& !isset($_GET['id']))){
         echo "";
         echo "<form action='?p=".DisplayGetVar('p')."&' method='get'>
@@ -17,14 +17,14 @@
 </div>
 <?php
     if(!isset($_GET['action'])){
-        include "includes/bits/admin/users/viewusers.php";
+        include "includes/bits/admin/authors/viewauthors.php";
     }else if($_GET['action'] == "delete" && isset($_GET['id'])){
-        include "includes/bits/admin/users/deleteuser.php";
+        include "includes/bits/admin/authors/deleteauthor.php";
     }else if($_GET['action'] == "edit" && isset($_GET['id'])){
-        include "includes/bits/admin/users/updateuser.php";
+        include "includes/bits/admin/authors/updateauthor.php";
     }else if($_GET['action'] == "add"){
-        include "includes/bits/admin/users/adduser.php";
+        include "includes/bits/admin/authors/addauthor.php";
     }else{
-        include "includes/bits/admin/users/viewusers.php";
+        include "includes/bits/admin/authors/viewauthors.php";
     }
 ?>

@@ -1,5 +1,6 @@
 <?php
     require "includes/connection.php";
+    require "includes/functions.php";
 
     if(!empty($_SESSION['user'])) 
     { 

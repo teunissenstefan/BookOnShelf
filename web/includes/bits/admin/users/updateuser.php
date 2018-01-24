@@ -68,13 +68,13 @@ if($numberOfRows != 1){
         { 
             die("Failed to run query (2)"); 
         } 
-        header("Location: ?p=manageusers");
+        header("Location: ?p=".DisplayGetVar('p'));
     }else{
 
     }
     ?>
 
-    <form action="?p=manageusers&action=edit&id=<?php echo $_GET['id']; ?>" method="post">
+    <form action="?p=<?php echo DisplayGetVar('p'); ?>&action=edit&id=<?php echo $_GET['id']; ?>" method="post">
         <label for="inputFirstName">ID</label><br />
         <input type="text" value="<?php echo $userRow['id']; ?>" disabled><br />
         <label for="inputFirstName">Voornaam</label><br />
@@ -90,7 +90,7 @@ if($numberOfRows != 1){
         <label for="inputRank">Rang (1=beheerder,0=standaard)</label><br />
         <input type="rank" id="inputRank" name="rank" placeholder="<?php echo $userRow['rank']; ?>" value="<?php echo !empty($_POST['rank']) ? $_POST['rank'] : $userRow['rank']; ?>"><br />
         <button type="submit" class="add">Aanpassingen opslaan</button>
-        <a href='?p=manageusers' class="linkbutton edit">Annuleren</a>
+        <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
     </form>
 
     <?php

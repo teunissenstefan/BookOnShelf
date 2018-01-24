@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 23 jan 2018 om 12:00
+-- Gegenereerd op: 24 jan 2018 om 11:04
 -- Serverversie: 10.1.19-MariaDB
 -- PHP-versie: 5.6.28
 
@@ -28,7 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `auteurs` (
   `id` varchar(15) NOT NULL,
-  `name` varchar(300) NOT NULL
+  `firstname` varchar(64) NOT NULL,
+  `lastname` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -69,13 +70,6 @@ CREATE TABLE `gebruikers` (
   `email` varchar(255) NOT NULL,
   `rank` int(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Gegevens worden geëxporteerd voor tabel `gebruikers`
---
-
-INSERT INTO `gebruikers` (`id`, `username`, `firstname`, `lastname`, `password`, `salt`, `email`, `rank`) VALUES
-('4sjy2gmf0h6a', 'appelsap', 'Appel', 'Sap', 'b2aa03db90985d28f73c249bd0e743d71d0334009165ea6c14b443e26221f33d', '5527833130f54791', 'appel@sap.nl', 0);
 
 --
 -- Indexen voor geëxporteerde tabellen
