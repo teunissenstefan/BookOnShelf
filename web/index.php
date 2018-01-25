@@ -63,5 +63,6 @@
             </div>
         </div>
     </div>
+    <script src="./js/selector.js"></script>
 </body>
 </html>

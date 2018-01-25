@@ -114,10 +114,10 @@ if(!empty($_POST)){
         <div>Vul een achternaam in</div>
     <?php } ?>
     <?php if($msgFailedQuery1){?>
-        <div>Fout bij het registreren (1)</div>
+        <div>Fout bij het toevoegen (1)</div>
     <?php } ?>
     <?php if($msgFailedQuery3){?>
-        <div>Fout bij het registreren (3)</div>
+        <div>Fout bij het toevoegen (3)</div>
     <?php } ?>
 <?php } ?>
 
