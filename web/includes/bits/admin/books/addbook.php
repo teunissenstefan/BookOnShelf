@@ -32,6 +32,32 @@ if(!empty($_POST)){
     } else{
         $msgEnterISBN = false;
     }
+
+    $auteurListQuery = " 
+        SELECT * FROM auteurs
+        WHERE
+            id = :id
+    ";
+    $auteurQuery_params = array( 
+        ':id' => strip_tags($_POST['auteursid'])
+    );
+
+    try 
+    {
+        $stmt = $db->prepare($auteurListQuery); 
+        $stmt->execute($auteurQuery_params);
+    } 
+    catch(PDOException $ex) 
+    { 
+        die("Failed to run query (2)");
+    }
+    $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
+    if($authorRow){
+        $msgAuthorNotFound = false;
+    }else{
+        $msgAuthorNotFound = true;
+        $failed = true;
+    }
     
     $msgFailedQuery3 = false;
     if(!$failed){
@@ -50,15 +76,6 @@ if(!empty($_POST)){
                 :auteursid
             ) 
         "; 
-        
-        $salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
-        
-        $password = hash('sha256', strip_tags($_POST['password']) . $salt); 
-        
-        for($round = 0; $round < 65536; $round++) 
-        { 
-            $password = hash('sha256', $password . $salt); 
-        } 
         
         $idtje = base_convert(microtime(false), 10, 36);
 
@@ -87,6 +104,9 @@ if(!empty($_POST)){
     ?>
 
 <?php if(!empty($_POST)){ ?>
+    <?php if($msgAuthorNotFound){?>
+        <div>Auteur niet gevonden</div>
+    <?php } ?>
     <?php if($msgEnterTitle){?>
         <div>Vul een titel in</div>
     <?php } ?>
@@ -112,14 +132,7 @@ if(!empty($_POST)){
     <label for="inputISBN">ISBN13</label><br />
     <input type="text" id="inputISBN" name="isbn13" placeholder="ISBN13" value="<?php echo !empty($_POST['isbn13']) ? $_POST['isbn13'] : ''; ?>"><br />
     <label for="inputAuthor">Auteur</label><br />
-    Auteurs uit DB krijgen en in DATALIST stoppen
-    <input type="text" id="inputAuthor" autocomplete="off" name="auteursid" placeholder="Auteur" list="auteurLijst" value="<?php echo !empty($_POST['auteursid']) ? $_POST['auteursid'] : ''; ?>">
-    <datalist id="auteurLijst">
-        <option data-value="jansmit" value="Jan Smit">
-        <option data-value="pieterpost" value="Pieter Post">
-    </datalist><br />
-    <label for="inputTaken">Uitgeleend</label><br />
-    <input type="text" id="inputTaken" name="takenby" placeholder="Uitgeleend" value="<?php echo !empty($_POST['takenby']) ? $_POST['takenby'] : ''; ?>"><br />
+    <?php include "includes/bits/admin/authorlist.php"; ?><br />
     <button type="submit" onclick="return GetAuthor();" class="add">Toevoegen</button>
     <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
 </form>

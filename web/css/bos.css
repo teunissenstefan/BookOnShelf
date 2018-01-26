@@ -5,7 +5,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .wrapper {
-    width:1170px;
+    width:1200px;
     margin-left:auto;
     margin-right:auto;
     display: grid;
@@ -67,6 +67,9 @@ input[disabled]{
 }
 td > a > button{
     width:100%;
+}
+h1,h2,h3,h4,h5,h6{
+    margin:0;
 }
 .topMenu > h1{
     margin:0;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 25, 2018 at 12:18 PM
+-- Generation Time: Jan 26, 2018 at 12:20 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -39,6 +39,11 @@ CREATE TABLE `auteurs` (
 --
 
 INSERT INTO `auteurs` (`id`, `firstname`, `lastname`) VALUES
+('2mk1dvs06wkw', 'Timon', 'Schaars'),
+('3etxttcrbukd', 'Lekker', 'Spelen'),
+('588f5c8y2f08', 'Peter', 'Schaars'),
+('5mr9vqvqvjh3', 'Appel', 'Sap'),
+('6eq4yo61dizs', 'Jan', 'Peter'),
 ('vx5vz4m0wmw', 'Jan', 'Smit');
 
 -- --------------------------------------------------------
@@ -87,7 +92,7 @@ CREATE TABLE `gebruikers` (
 INSERT INTO `gebruikers` (`id`, `username`, `firstname`, `lastname`, `password`, `salt`, `email`, `rank`) VALUES
 ('47pp70unpncq', 'pieterpost420', 'Pieter', 'Post', '505a279d70b20e676e00f8e5677e311e60eb96281b34cad34e4e4d8ea78ca520', '6ff5646553f8246b', 'pieter@post.nl', 0),
 ('5yyp6r1u0gce', 'janjanssen6969', 'Jan', 'Janssen', 'b307293979800fb5d41be12d77173a0351401070272d48480df7c2328dd0779b', '7004f0f32c88a10e', 'jan@janssen.nl', 0),
-('9fme6qy1yzn', 'appelsap69', 'Appel', 'Sap', 'f969675843e7bcbd494d2b72145230515f161b0962de2ecd5c9e71142dbe3ab3', '228df49258e16fbf', 'appel@sap.nl', 1);
+('9fme6qy1yzn', 'appelsap69', 'Appel', 'Sap', 'f969675843e7bcbd494d2b72145230515f161b0962de2ecd5c9e71142dbe3ab3', '228df49258e16fbf', 'appel@sap.nl', 0);
 
 --
 -- Indexes for dumped tables

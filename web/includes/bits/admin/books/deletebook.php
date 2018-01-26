@@ -45,7 +45,7 @@
         $bookRow = $stmt->fetch(PDO::FETCH_ASSOC);
         $numberOfRows = count($bookRow);
         if($numberOfRows != 1){
-            echo "{$bookRow['title']}<hr>{$bookRow['description']}<br /><hr>";
+            echo "<h2>{$bookRow['title']}</h2><hr>".nl2br($bookRow['description'])."<br /><hr>";
             echo "Weet je zeker dat je dit boek wilt verwijderen?<br/>";
             echo "<a href='?p=".DisplayGetVar('p')."&action=delete&id={$_GET['id']}&confirm=true'><button class='delete'>Ja</button></a> <a href='?p=".DisplayGetVar('p')."'><button class='edit'>Nee</button></a>";
         }else{

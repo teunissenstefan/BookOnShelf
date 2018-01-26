@@ -11,6 +11,7 @@
         <?php
                 }
         ?>
+                <li><a href="?p=changepassword">Wachtwoord wijzigen</a></li>
                 <li><a href="?p=logout">Uitloggen</a></li>
         <?php
             }else{

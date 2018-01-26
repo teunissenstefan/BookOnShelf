@@ -69,10 +69,13 @@ if($numberOfRows != 1){
         <label for="inputISBN">ISBN13</label><br />
         <input type="text" id="inputISBN" name="isbn13" placeholder="<?php echo $bookRow['isbn13']; ?>" value="<?php echo !empty($_POST['isbn13']) ? $_POST['isbn13'] : $bookRow['isbn13']; ?>"><br />
         <label for="inputAuthor">Auteur</label><br />
-        <input type="text" id="inputAuthor" name="auteursid" placeholder="<?php echo $bookRow['auteursid']; ?>" value="<?php echo !empty($_POST['auteur']) ? $_POST['auteur'] : $bookRow['auteursid']; ?>"><br />
+        <?php 
+            $getAuthorFromList = $bookRow['auteursid'];
+            include "includes/bits/admin/authorlist.php";
+        ?><br />
         <label for="inputTaken">Uitgeleend</label><br />
         <input type="text" id="inputTaken" name="takenby" placeholder="<?php echo $bookRow['takenby']; ?>" value="<?php echo !empty($_POST['takenby']) ? $_POST['takenby'] : $bookRow['takenby']; ?>"><br />
-        <button type="submit" class="add">Aanpassingen opslaan</button>
+        <button type="submit" onclick="return GetAuthor();" class="add">Aanpassingen opslaan</button>
         <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
     </form>
 
