@@ -1,0 +1,57 @@
+@media (max-width: 500px) {
+    .wrapper {
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 10px;
+        grid-auto-rows: minmax(auto, auto);
+        grid-template-areas: 
+            "menu"
+            "content";
+    }
+    textarea{
+        width:100%;
+        margin-left:auto;
+        margin-right:auto;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+    a{
+        display:button;
+    }
+    a.linkbutton{
+        display:block;
+        text-align:center;
+    }
+    button,input,a.linkbutton,textarea{
+        width:100%;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+    .menuLink{
+        font-size:14px;
+        color:black;
+        padding:5px 15px;
+        margin:1px 1px;
+        font-weight:normal;
+        display:block;
+        text-align:center;
+    }
+    .rowChild{
+        width:100%;
+        max-width:100%;
+        margin-left:0;
+        margin-right:0;
+    }
+    .rowChildInvisOnMobile{
+        visibility: hidden;
+        display:none;
+    }
+    .title{
+        font-weight:bold;
+    }
+}

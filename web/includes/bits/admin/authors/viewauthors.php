@@ -43,17 +43,13 @@ if(isset($_GET['q'])){
 if($numberOfRows == 0){
     echo "Er zijn geen auteurs gevonden";
 }else{
-    echo "<table>";
-    echo "<tr><th>Bewerkingen</th><th>Achternaam</th><th>Voornaam</th></tr>";
-        foreach($authorRows as $autorRow){
-            echo "<tr>";
-            echo "<td center><a href='?p=".DisplayGetVar('p')."&action=delete&id={$autorRow['id']}'><button class='delete'>Verwijder</button></a><br/>
-                        <a href='?p=".DisplayGetVar('p')."&action=edit&id={$autorRow['id']}'><button class='edit'>Bewerk</button></a></td>
-                    <td>{$autorRow['lastname']}</td>
-                    <td>{$autorRow['firstname']}</td>";
-            echo "</tr>";
-        }
-    echo "</table>";
+    foreach($authorRows as $authorRow){
+        echo "<div class='rowWrapper'>";
+            echo "<div class='rowChild'><a href='?p=".DisplayGetVar('p')."&action=delete&id={$authorRow['id']}'><button class='delete'>Verwijder</button></a><br/>
+                        <a href='?p=".DisplayGetVar('p')."&action=edit&id={$authorRow['id']}'><button class='edit'>Bewerk</button></a></div>";
+            echo "<div class='rowChild title'>{$authorRow['firstname']} {$authorRow['lastname']}</div>";
+        echo "</div>";
+    }
 }
 
 ?>

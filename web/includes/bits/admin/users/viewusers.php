@@ -51,20 +51,16 @@ if(isset($_GET['q'])){
 if($numberOfRows == 0){
     echo "Er zijn geen gebruikers gevonden";
 }else{
-    echo "<table>";
-    echo "<tr><th>Bewerkingen</th><th>Rang</th><th>Achternaam</th><th>Voornaam</th><th>Gebruikersnaam</th><th>E-mail</th></tr>";
-        foreach($userRows as $userRow){
-            echo "<tr>";
-            echo "<td center><a href='?p=".DisplayGetVar('p')."&action=delete&id={$userRow['id']}'><button class='delete'>Verwijder</button></a><br/>
-                        <a href='?p=".DisplayGetVar('p')."&action=edit&id={$userRow['id']}'><button class='edit'>Bewerk</button></a></td>
-                    <td center>{$userRow['rank']}</td>
-                    <td>{$userRow['lastname']}</td>
-                    <td>{$userRow['firstname']}</td>
-                    <td>{$userRow['username']}</td>
-                    <td>{$userRow['email']}</td>";
-            echo "</tr>";
-        }
-    echo "</table>";
+    foreach($userRows as $userRow){
+        echo "<div class='rowWrapper'>";
+            echo "<div class='rowChild'><a href='?p=".DisplayGetVar('p')."&action=delete&id={$userRow['id']}'><button class='delete'>Verwijder</button></a><br/>
+                        <a href='?p=".DisplayGetVar('p')."&action=edit&id={$userRow['id']}'><button class='edit'>Bewerk</button></a></div>";
+            echo "<div class='rowChild title'>{$userRow['firstname']} {$userRow['lastname']}</div>";
+            echo "<div class='rowChild'>Rang: {$userRow['rank']}</div>";
+            echo "<div class='rowChild'>Gebruikersnaam: {$userRow['username']}</div>";
+            echo "<div class='rowChild'>E-mail: {$userRow['email']}</div>";
+        echo "</div>";
+    }
 }
 
 ?>

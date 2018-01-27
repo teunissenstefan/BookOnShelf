@@ -12,6 +12,8 @@
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 10px;
     grid-auto-rows: minmax(100px, auto);
+    grid-template-areas: 
+        "menu content content content content";
 }
 .menu,.content{
     background-color:var(--background-color);
@@ -31,12 +33,10 @@ a:hover{
 
 }
 .menuWrapper {
-    grid-column: 1 / 2;
-    grid-row: 1;
+    grid-area:menu;
 }
 .contentWrapper { 
-    grid-column: 2 / 6;
-    grid-row: 1/3;
+    grid-area:content;
 }
 button,input,a.linkbutton,textarea{
     font-size:14px;
@@ -93,4 +93,21 @@ hr{
 }
 td[center]{
     text-align: center;
+}
+.rowWrapper{
+    width:100%;
+    border-bottom:1px solid black;
+    overflow:hidden;
+    margin-top:2px;
+}
+.rowChild,.rowChildInvisOnMobile{
+    float: left;
+    min-width:100px;
+    width:auto;
+    max-width:155px;
+    margin-left:5px;
+    margin-right:5px;
+}
+a > div.rowWrapper:hover{
+    color:black;
 }

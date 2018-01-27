@@ -54,8 +54,6 @@ if($numberOfRows != 1){
             die("Failed to run query (2)"); 
         } 
         header("Location: ?p=".DisplayGetVar('p'));
-    }else{
-
     }
     ?>
 

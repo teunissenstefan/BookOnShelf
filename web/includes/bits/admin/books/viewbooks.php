@@ -43,43 +43,40 @@ if(isset($_GET['q'])){
 if($numberOfRows == 0){
     echo "Er zijn geen boeken gevonden";
 }else{
-    echo "<table>";
-    echo "<tr><th>Bewerkingen</th><th>ISBN13</th><th>Auteur</th><th>Uitgeleend</th><th>Titel</th><th>Beschrijving</th></tr>";
-        foreach($bookRows as $bookRow){
-            $authorQuery = " 
-                SELECT 
-                    *
-                FROM auteurs
-                WHERE 
-                    id = :authorid
-            "; 
-            $query_params = array( 
-                ':authorid' => $bookRow['auteursid']
-            ); 
-            try 
-            { 
-                $stmt = $db->prepare($authorQuery); 
-                $stmt->execute($query_params); 
-            } 
-            catch(PDOException $ex) 
-            { 
-                die("Failed to run query (2)"); 
-            }
-            $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            $descrLengte = 60;
-            $descr = (strlen($bookRow['description']) > $descrLengte) ? substr($bookRow['description'], 0, $descrLengte) . '...' : $bookRow['description'];
-            echo "<tr>";
-            echo "<td center><a href='?p=".DisplayGetVar('p')."&action=delete&id={$bookRow['id']}'><button class='delete'>Verwijder</button></a><br/>
-                        <a href='?p=".DisplayGetVar('p')."&action=edit&id={$bookRow['id']}'><button class='edit'>Bewerk</button></a></td>
-                    <td>{$bookRow['isbn13']}</td>
-                    <td><a href='?p=manageauthors&action=edit&id={$authorRow['id']}'>{$authorRow['firstname']} {$authorRow['lastname']}</a></td>
-                    <td>{$bookRow['takenby']}</td>
-                    <td>{$bookRow['title']}</td>
-                    <td>{$descr}</td>";
-            echo "</tr>";
+    foreach($bookRows as $bookRow){
+        $authorQuery = " 
+            SELECT 
+                *
+            FROM auteurs
+            WHERE 
+                id = :authorid
+        "; 
+        $query_params = array( 
+            ':authorid' => $bookRow['auteursid']
+        ); 
+        try 
+        { 
+            $stmt = $db->prepare($authorQuery); 
+            $stmt->execute($query_params); 
+        } 
+        catch(PDOException $ex) 
+        { 
+            die("Failed to run query (2)"); 
         }
-    echo "</table>";
+        $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $descrLengte = 60;
+        $descr = (strlen($bookRow['description']) > $descrLengte) ? substr($bookRow['description'], 0, $descrLengte) . '...' : $bookRow['description'];
+        echo "<div class='rowWrapper'>";
+            echo "<div class='rowChild'><a href='?p=".DisplayGetVar('p')."&action=delete&id={$bookRow['id']}'><button class='delete'>Verwijder</button></a><br/>
+                        <a href='?p=".DisplayGetVar('p')."&action=edit&id={$bookRow['id']}'><button class='edit'>Bewerk</button></a></div>";
+            echo "<div class='rowChild title'>{$bookRow['title']}</div>";
+            echo "<div class='rowChild'>{$descr}</div>";
+            echo "<div class='rowChild'>Auteur: <a href='?p=manageauthors&action=edit&id={$authorRow['id']}'>{$authorRow['firstname']} {$authorRow['lastname']}</a></div>";
+            echo "<div class='rowChild'>ISBN13: {$bookRow['isbn13']}</div>";
+            echo "<div class='rowChild'>Uitgeleend: {$bookRow['takenby']}</div>";
+        echo "</div>";
+    }
 }
 
 ?>

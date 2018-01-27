@@ -43,6 +43,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BookOnShelf</title>
     <link rel="stylesheet" type="text/css" href="css/bos.css">
+    <link rel="stylesheet" type="text/css" href="css/small.css">
 </head>
 <body>
     <div class="wrapper">
