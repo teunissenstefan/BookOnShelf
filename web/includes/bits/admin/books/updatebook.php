@@ -71,8 +71,57 @@ if($numberOfRows != 1){
             $getAuthorFromList = $bookRow['auteursid'];
             include "includes/bits/admin/authorlist.php";
         ?><br />
-        <label for="inputTaken">Uitgeleend</label><br />
-        <input type="text" id="inputTaken" name="takenby" placeholder="<?php echo $bookRow['takenby']; ?>" value="<?php echo !empty($_POST['takenby']) ? $_POST['takenby'] : $bookRow['takenby']; ?>"><br />
+        <?php
+            $uitgeleendQuery = " 
+                SELECT 
+                    *
+                FROM uitgeleend
+                WHERE
+                    bookid =:bookid
+            "; 
+            $uitgeleendQuery_params = array( 
+                ':bookid' => $_GET['id']
+            ); 
+            
+            try 
+            { 
+                $stmt = $db->prepare($uitgeleendQuery); 
+                $stmt->execute($uitgeleendQuery_params); 
+            } 
+            catch(PDOException $ex) 
+            { 
+                die("Failed to run query (3)"); 
+            } 
+            $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($uitgeleendRows) > 0){
+                echo "Uitgeleend:<br/ >";
+                foreach($uitgeleendRows as $uitgeleendRow){
+                    $userQuery = " 
+                        SELECT 
+                            *
+                        FROM gebruikers
+                        WHERE
+                            id =:userid
+                        LIMIT 1
+                    "; 
+                    $userQuery_params = array( 
+                        ':userid' => $uitgeleendRow['userid']
+                    ); 
+                    
+                    try 
+                    { 
+                        $stmt = $db->prepare($userQuery); 
+                        $stmt->execute($userQuery_params); 
+                    } 
+                    catch(PDOException $ex) 
+                    { 
+                        die("Failed to run query (4)"); 
+                    } 
+                    $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
+                    echo "{$userRow['firstname']} {$userRow['lastname']}<br />";
+                }
+            }
+        ?>
         <button type="submit" onclick="return GetAuthor();" class="add">Aanpassingen opslaan</button>
         <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
     </form>

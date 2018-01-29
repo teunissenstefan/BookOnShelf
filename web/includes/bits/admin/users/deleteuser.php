@@ -1,4 +1,26 @@
 <?php
+$uitgeleendQuery = " 
+    SELECT 
+        *
+    FROM uitgeleend
+    WHERE
+        userid =:userid
+    "; 
+$uitgeleendQuery_params = array( 
+    ':userid' => $_GET['id']
+); 
+
+try 
+{ 
+    $stmt = $db->prepare($uitgeleendQuery); 
+    $stmt->execute($uitgeleendQuery_params); 
+} 
+catch(PDOException $ex) 
+{ 
+    die("Failed to run query (3)"); 
+}
+$uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if(count($uitgeleendRows) == 0){
     if(isset($_GET['confirm'])){
         $query = " 
             DELETE
@@ -54,4 +76,7 @@
             echo "Gebruiker niet gevonden";
         }
     }
+}else{
+    echo "Deze gebruiker kan niet verwijderd worden omdat er boeken uitgeleend zijn aan deze gebruiker<br /><a href='?p=".DisplayGetVar('p')."'><button class='edit'>Terug</button></a>";
+}
 ?>

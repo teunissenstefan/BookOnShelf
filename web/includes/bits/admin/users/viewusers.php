@@ -52,6 +52,27 @@ if($numberOfRows == 0){
     echo "Er zijn geen gebruikers gevonden";
 }else{
     foreach($userRows as $userRow){
+        $uitgeleendQuery = " 
+            SELECT 
+                *
+            FROM uitgeleend
+            WHERE 
+                userid = :userid
+        "; 
+        $uitgeleendQuery_params = array( 
+            ':userid' => $userRow['id']
+        ); 
+        try 
+        { 
+            $stmt = $db->prepare($uitgeleendQuery); 
+            $stmt->execute($uitgeleendQuery_params); 
+        } 
+        catch(PDOException $ex) 
+        { 
+            die("Failed to run query (3)"); 
+        }
+        $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $uitgeleend = count($uitgeleendRows);
         echo "<div class='rowWrapper'>";
             echo "<div class='rowChild'><a href='?p=".DisplayGetVar('p')."&action=delete&id={$userRow['id']}'><button class='delete'>Verwijder</button></a><br/>
                         <a href='?p=".DisplayGetVar('p')."&action=edit&id={$userRow['id']}'><button class='edit'>Bewerk</button></a></div>";
@@ -59,6 +80,7 @@ if($numberOfRows == 0){
             echo "<div class='rowChild'>Rang: {$userRow['rank']}</div>";
             echo "<div class='rowChild'>Gebruikersnaam: {$userRow['username']}</div>";
             echo "<div class='rowChild'>E-mail: {$userRow['email']}</div>";
+            echo "<div class='rowChild'>Boeken: {$uitgeleend}</div>";
         echo "</div>";
     }
 }

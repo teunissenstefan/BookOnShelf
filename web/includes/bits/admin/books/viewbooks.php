@@ -64,6 +64,27 @@ if($numberOfRows == 0){
             die("Failed to run query (2)"); 
         }
         $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        $uitgeleendQuery = " 
+            SELECT 
+                *
+            FROM uitgeleend
+            WHERE 
+                bookid = :bookid
+        "; 
+        $uitgeleendQuery_params = array( 
+            ':bookid' => $bookRow['id']
+        ); 
+        try 
+        { 
+            $stmt = $db->prepare($uitgeleendQuery); 
+            $stmt->execute($uitgeleendQuery_params); 
+        } 
+        catch(PDOException $ex) 
+        { 
+            die("Failed to run query (3)"); 
+        }
+        $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $uitgeleend = $bookRow['amount'] - count($uitgeleendRows);
 
         $descrLengte = 60;
         $descr = (strlen($bookRow['description']) > $descrLengte) ? substr($bookRow['description'], 0, $descrLengte) . '...' : $bookRow['description'];
@@ -74,7 +95,7 @@ if($numberOfRows == 0){
             echo "<div class='rowChild'>{$descr}</div>";
             echo "<div class='rowChild'>Auteur: <a href='?p=manageauthors&action=edit&id={$authorRow['id']}'>{$authorRow['firstname']} {$authorRow['lastname']}</a></div>";
             echo "<div class='rowChild'>ISBN13: {$bookRow['isbn13']}</div>";
-            echo "<div class='rowChild'>Uitgeleend: {$bookRow['takenby']}</div>";
+            echo "<div class='rowChild'>Beschikbaar: {$uitgeleend}/{$bookRow['amount']}</div>";
         echo "</div>";
     }
 }

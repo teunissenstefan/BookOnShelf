@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 26, 2018 at 12:20 PM
+-- Generation Time: Jan 29, 2018 at 12:16 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -39,10 +39,12 @@ CREATE TABLE `auteurs` (
 --
 
 INSERT INTO `auteurs` (`id`, `firstname`, `lastname`) VALUES
+('2fiyfkl44zhn', 'Hasan', 'Aydin'),
 ('2mk1dvs06wkw', 'Timon', 'Schaars'),
 ('3etxttcrbukd', 'Lekker', 'Spelen'),
 ('588f5c8y2f08', 'Peter', 'Schaars'),
 ('5mr9vqvqvjh3', 'Appel', 'Sap'),
+('5xwtjfnct7sy', 'Frans', 'Bauer'),
 ('6eq4yo61dizs', 'Jan', 'Peter'),
 ('vx5vz4m0wmw', 'Jan', 'Smit');
 
@@ -58,15 +60,15 @@ CREATE TABLE `boeken` (
   `description` text NOT NULL,
   `isbn13` bigint(13) NOT NULL,
   `auteursid` varchar(15) NOT NULL,
-  `takenby` varchar(15) NOT NULL DEFAULT ''
+  `amount` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `boeken`
 --
 
-INSERT INTO `boeken` (`id`, `title`, `description`, `isbn13`, `auteursid`, `takenby`) VALUES
-('ok3eji4il3osk2o', 'Mijn pure keuken', 'Als model heeft Pascale Naessens jarenlang een strijd gevoerd met haar eetgewoontes. Ze weigerde een leven te leiden waarbij ze calorieën moest tellen en niet meer kon genieten van koken en tafelen. En dus ging ze op zoek naar een andere manier van eten waarbij ze lekker en voldoende kon eten mét respect voor haar lichaam en lijn. Naar een manier die zowel het model, de levensgenieter als de romanticus in haar tevreden stelde. En haar echtgenoot Paul Jambers, want de liefde van de man gaat immers door de maag.\r\n\r\nPascale vond haar evenwicht in de pure keuken waar ze van kon genieten zonder schuldgevoel. De basis van deze keuken zijn goede combinaties, gezonde ingrediënten en de juiste vetten. De verrassing zit \'m in de eenvoud. Haar gerechten zijn speciaal en toch eenvoudig, ook om te bereiden. Al haar recepten en ondervindingen bundelde ze in haar eerste kookboek Mijn pure keuken. Een boek met veelal mediterraan geïnspireerde recepten op basis van vis, olijfolie, groenten en verse kruiden. En af en toe een stukje vlees voor de vitamine B12.\r\n\r\nAlle gerechten zijn samengesteld volgens een combinatiedieet: niemand zal er dus van verdikken en er zal eindelijk komaf gemaakt worden met dat opgeblazen gevoel.\r\nPascale en Paul kiezen bewust voor de pure keuken en laten de romantiek hoogtij vieren aan tafel.', 9789020926651, 'vx5vz4m0wmw', '');
+INSERT INTO `boeken` (`id`, `title`, `description`, `isbn13`, `auteursid`, `amount`) VALUES
+('ok3eji4il3osk2o', 'Mijn pure keuken', 'Als model heeft Pascale Naessens jarenlang een strijd gevoerd met haar eetgewoontes. Ze weigerde een leven te leiden waarbij ze calorieën moest tellen en niet meer kon genieten van koken en tafelen. En dus ging ze op zoek naar een andere manier van eten waarbij ze lekker en voldoende kon eten mét respect voor haar lichaam en lijn. Naar een manier die zowel het model, de levensgenieter als de romanticus in haar tevreden stelde. En haar echtgenoot Paul Jambers, want de liefde van de man gaat immers door de maag.\r\n\r\nPascale vond haar evenwicht in de pure keuken waar ze van kon genieten zonder schuldgevoel. De basis van deze keuken zijn goede combinaties, gezonde ingrediënten en de juiste vetten. De verrassing zit \'m in de eenvoud. Haar gerechten zijn speciaal en toch eenvoudig, ook om te bereiden. Al haar recepten en ondervindingen bundelde ze in haar eerste kookboek Mijn pure keuken. Een boek met veelal mediterraan geïnspireerde recepten op basis van vis, olijfolie, groenten en verse kruiden. En af en toe een stukje vlees voor de vitamine B12.\r\n\r\nAlle gerechten zijn samengesteld volgens een combinatiedieet: niemand zal er dus van verdikken en er zal eindelijk komaf gemaakt worden met dat opgeblazen gevoel.\r\nPascale en Paul kiezen bewust voor de pure keuken en laten de romantiek hoogtij vieren aan tafel.', 9789020926651, 'vx5vz4m0wmw', 5);
 
 -- --------------------------------------------------------
 
@@ -94,6 +96,26 @@ INSERT INTO `gebruikers` (`id`, `username`, `firstname`, `lastname`, `password`,
 ('5yyp6r1u0gce', 'janjanssen6969', 'Jan', 'Janssen', 'b307293979800fb5d41be12d77173a0351401070272d48480df7c2328dd0779b', '7004f0f32c88a10e', 'jan@janssen.nl', 0),
 ('9fme6qy1yzn', 'appelsap69', 'Appel', 'Sap', 'f969675843e7bcbd494d2b72145230515f161b0962de2ecd5c9e71142dbe3ab3', '228df49258e16fbf', 'appel@sap.nl', 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `uitgeleend`
+--
+
+CREATE TABLE `uitgeleend` (
+  `id` varchar(15) NOT NULL,
+  `bookid` varchar(15) NOT NULL,
+  `userid` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `uitgeleend`
+--
+
+INSERT INTO `uitgeleend` (`id`, `bookid`, `userid`) VALUES
+('ok3eji4il3osk20', 'ok3eji4il3osk2o', '5yyp6r1u0gce'),
+('ok3eji4il3osk2o', 'ok3eji4il3osk2o', '47pp70unpncq');
+
 --
 -- Indexes for dumped tables
 --
@@ -114,6 +136,12 @@ ALTER TABLE `boeken`
 -- Indexes for table `gebruikers`
 --
 ALTER TABLE `gebruikers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `uitgeleend`
+--
+ALTER TABLE `uitgeleend`
   ADD PRIMARY KEY (`id`);
 COMMIT;
 

@@ -89,6 +89,57 @@ if($numberOfRows != 1){
         <input type="password" id="inputPassword" name="password" placeholder="Wachtwoord" value=""><br />
         <label for="inputRank">Rang (1=beheerder,0=standaard)</label><br />
         <input type="rank" id="inputRank" name="rank" placeholder="<?php echo $userRow['rank']; ?>" value="<?php echo !empty($_POST['rank']) ? $_POST['rank'] : $userRow['rank']; ?>"><br />
+        <?php
+            $uitgeleendQuery = " 
+                SELECT 
+                    *
+                FROM uitgeleend
+                WHERE
+                    userid =:userid
+            "; 
+            $uitgeleendQuery_params = array( 
+                ':userid' => $_GET['id']
+            ); 
+            
+            try 
+            { 
+                $stmt = $db->prepare($uitgeleendQuery); 
+                $stmt->execute($uitgeleendQuery_params); 
+            } 
+            catch(PDOException $ex) 
+            { 
+                die("Failed to run query (3)"); 
+            } 
+            $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if(count($uitgeleendRows) > 0){
+                echo "Boeken:<br/ >";
+                foreach($uitgeleendRows as $uitgeleendRow){
+                    $bookQuery = " 
+                        SELECT 
+                            *
+                        FROM boeken
+                        WHERE
+                            id =:bookid
+                        LIMIT 1
+                    "; 
+                    $bookQuery_params = array( 
+                        ':bookid' => $uitgeleendRow['bookid']
+                    ); 
+                    
+                    try 
+                    { 
+                        $stmt = $db->prepare($bookQuery); 
+                        $stmt->execute($bookQuery_params); 
+                    } 
+                    catch(PDOException $ex) 
+                    { 
+                        die("Failed to run query (4)"); 
+                    } 
+                    $bookRow = $stmt->fetch(PDO::FETCH_ASSOC);
+                    echo "{$bookRow['title']}<br />";
+                }
+            }
+        ?>
         <button type="submit" class="add">Aanpassingen opslaan</button>
         <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
     </form>
