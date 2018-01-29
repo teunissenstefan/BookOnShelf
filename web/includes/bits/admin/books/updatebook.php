@@ -24,24 +24,56 @@ $bookRow = $stmt->fetch(PDO::FETCH_ASSOC);
 $numberOfRows = count($bookRow);
 if($numberOfRows != 1){
     if(!empty($_POST)){
+        $auteursString = explode(",",$_POST['auteurs']);
+        $auteurs = "";
+        foreach($auteursString as $auteurString){
+            if(!empty($auteurString)){
+                $auteurString = explode(" ",$auteurString);
+                $geschrevenQuery = " 
+                    SELECT 
+                        *
+                    FROM auteurs
+                    WHERE
+                        firstname =:firstname AND lastname =:lastname
+                "; 
+                $geschrevenQuery_params = array( 
+                    ':firstname' => $auteurString[0],
+                    ':lastname' => $auteurString[1]
+                ); 
+
+                try 
+                { 
+                    $stmt = $db->prepare($geschrevenQuery); 
+                    $stmt->execute($geschrevenQuery_params); 
+                } 
+                catch(PDOException $ex) 
+                { 
+                    die("Failed to run query (5)"); 
+                } 
+                $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
+                $auteurs.= $geschrevenRow['id'].",";
+            }
+        }
+
+
         $update_query = " 
             UPDATE boeken 
             SET
                 title = :title,
                 description = :description,
                 isbn13 = :isbn13,
-                auteursid = :auteursid,
-                takenby = :takenby
+                auteurs = :auteurs,
+                amount = :amount
             WHERE
                 id =:id
-        "; 
+        ";
         $update_query_params = array( 
             ':id' => $_GET['id'],
             ':title' => strip_tags($_POST['title']),
             ':description' => strip_tags($_POST['description']),
             ':isbn13' => strip_tags($_POST['isbn13']),
-            ':auteursid' => strip_tags($_POST['auteursid']),
-            ':takenby' => strip_tags($_POST['takenby'])
+            ':auteurs' => strip_tags($auteurs),
+            ':amount' => strip_tags($_POST['amount'])
         ); 
 
         try 
@@ -52,9 +84,38 @@ if($numberOfRows != 1){
         catch(PDOException $ex) 
         { 
             die("Failed to run query (2)"); 
-        } 
+        }
         header("Location: ?p=".DisplayGetVar('p'));
     }
+    $auteursString = explode(",",$bookRow['auteurs']);
+    $auteurs = "";
+    foreach($auteursString as $auteurid){
+        if(!empty($auteurid)){
+            $geschrevenQuery = " 
+                SELECT 
+                    *
+                FROM auteurs
+                WHERE
+                    id =:id
+            "; 
+            $geschrevenQuery_params = array( 
+                ':id' => $auteurid
+            ); 
+
+            try 
+            { 
+                $stmt = $db->prepare($geschrevenQuery); 
+                $stmt->execute($geschrevenQuery_params); 
+            } 
+            catch(PDOException $ex) 
+            { 
+                die("Failed to run query (5)"); 
+            } 
+            $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            $auteurs.= $geschrevenRow['firstname']." ".$geschrevenRow['lastname'].",";
+        }
+    }
+    $auteurs = trim($auteurs,',');
     ?>
 
     <form action="?p=<?php echo DisplayGetVar('p'); ?>&action=edit&id=<?php echo $_GET['id']; ?>" method="post">
@@ -66,11 +127,10 @@ if($numberOfRows != 1){
         <textarea type="text" id="inputDescription" name="description" rows="20" cols="50"><?php echo !empty($_POST['description']) ? $_POST['description'] : $bookRow['description']; ?></textarea><br />
         <label for="inputISBN">ISBN13</label><br />
         <input type="text" id="inputISBN" name="isbn13" placeholder="<?php echo $bookRow['isbn13']; ?>" value="<?php echo !empty($_POST['isbn13']) ? $_POST['isbn13'] : $bookRow['isbn13']; ?>"><br />
-        <label for="inputAuthor">Auteur</label><br />
-        <?php 
-            $getAuthorFromList = $bookRow['auteursid'];
-            include "includes/bits/admin/authorlist.php";
-        ?><br />
+        <label for="inputAmount">Aantal</label><br />
+        <input type="text" id="inputAmount" name="amount" placeholder="<?php echo $bookRow['amount']; ?>" value="<?php echo !empty($_POST['amount']) ? $_POST['amount'] : $bookRow['amount']; ?>"><br />
+        <label for="inputAuthor">Auteurs</label><br />
+        <input type="text" id="inputAuthor" autocomplete="off" name="auteurs" placeholder="<?php echo $bookRow['auteurs']; ?>" value="<?php echo !empty($_POST['auteurs']) ? $_POST['auteurs'] : $auteurs; ?>"><br />
         <?php
             $uitgeleendQuery = " 
                 SELECT 

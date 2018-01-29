@@ -44,26 +44,35 @@ if($numberOfRows == 0){
     echo "Er zijn geen boeken gevonden";
 }else{
     foreach($bookRows as $bookRow){
-        $authorQuery = " 
-            SELECT 
-                *
-            FROM auteurs
-            WHERE 
-                id = :authorid
-        "; 
-        $query_params = array( 
-            ':authorid' => $bookRow['auteursid']
-        ); 
-        try 
-        { 
-            $stmt = $db->prepare($authorQuery); 
-            $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex) 
-        { 
-            die("Failed to run query (2)"); 
+        $auteursString = explode(",",$bookRow['auteurs']);
+        $auteurs = "";
+        foreach($auteursString as $auteurid){
+            if(!empty($auteurid)){
+                $geschrevenQuery = " 
+                    SELECT 
+                        *
+                    FROM auteurs
+                    WHERE
+                        id =:id
+                "; 
+                $geschrevenQuery_params = array( 
+                    ':id' => $auteurid
+                ); 
+    
+                try 
+                { 
+                    $stmt = $db->prepare($geschrevenQuery); 
+                    $stmt->execute($geschrevenQuery_params); 
+                } 
+                catch(PDOException $ex) 
+                { 
+                    die("Failed to run query (5)"); 
+                } 
+                $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
+                $auteurs.= $geschrevenRow['firstname']." ".$geschrevenRow['lastname'].",";
+            }
         }
-        $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        $auteurs = trim($auteurs,',');
         $uitgeleendQuery = " 
             SELECT 
                 *
@@ -84,7 +93,7 @@ if($numberOfRows == 0){
             die("Failed to run query (3)"); 
         }
         $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $uitgeleend = $bookRow['amount'] - count($uitgeleendRows);
+        $beschikbaar = $bookRow['amount'] - count($uitgeleendRows);
 
         $descrLengte = 60;
         $descr = (strlen($bookRow['description']) > $descrLengte) ? substr($bookRow['description'], 0, $descrLengte) . '...' : $bookRow['description'];
@@ -93,9 +102,9 @@ if($numberOfRows == 0){
                         <a href='?p=".DisplayGetVar('p')."&action=edit&id={$bookRow['id']}'><button class='edit'>Bewerk</button></a></div>";
             echo "<div class='rowChild title'>{$bookRow['title']}</div>";
             echo "<div class='rowChild'>{$descr}</div>";
-            echo "<div class='rowChild'>Auteur: <a href='?p=manageauthors&action=edit&id={$authorRow['id']}'>{$authorRow['firstname']} {$authorRow['lastname']}</a></div>";
+            echo "<div class='rowChild'>Auteurs: {$auteurs}</div>";
             echo "<div class='rowChild'>ISBN13: {$bookRow['isbn13']}</div>";
-            echo "<div class='rowChild'>Beschikbaar: {$uitgeleend}/{$bookRow['amount']}</div>";
+            echo "<div class='rowChild'>Beschikbaar: {$beschikbaar}/{$bookRow['amount']}</div>";
         echo "</div>";
     }
 }

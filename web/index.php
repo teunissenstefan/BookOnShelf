@@ -42,8 +42,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>BookOnShelf</title>
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="css/bos.css">
     <link rel="stylesheet" type="text/css" href="css/small.css">
+    <script src="./js/jquery.js"></script>
+    <script src="./js/jquery-ui.min.js"></script>
 </head>
 <body>
     <div class="wrapper">

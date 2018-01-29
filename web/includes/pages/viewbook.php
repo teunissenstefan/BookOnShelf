@@ -22,27 +22,57 @@ catch(PDOException $ex)
 } 
 $bookRow = $stmt->fetch(PDO::FETCH_ASSOC);
 if($bookRow){
-    $authorQuery = " 
-            SELECT 
-                *
-            FROM auteurs
-            WHERE 
-                id = :authorid
-        "; 
-        $query_params = array( 
-            ':authorid' => $bookRow['auteursid']
-        ); 
-        try 
-        { 
-            $stmt = $db->prepare($authorQuery); 
-            $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex) 
-        { 
-            die("Failed to run query (2)"); 
+    $auteursString = explode(",",$bookRow['auteurs']);
+    $auteurs = "";
+    foreach($auteursString as $auteurid){
+        if(!empty($auteurid)){
+            $geschrevenQuery = " 
+                SELECT 
+                    *
+                FROM auteurs
+                WHERE
+                    id =:id
+            "; 
+            $geschrevenQuery_params = array( 
+                ':id' => $auteurid
+            ); 
+
+            try 
+            { 
+                $stmt = $db->prepare($geschrevenQuery); 
+                $stmt->execute($geschrevenQuery_params); 
+            } 
+            catch(PDOException $ex) 
+            { 
+                die("Failed to run query (5)"); 
+            } 
+            $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            $auteurs.= $geschrevenRow['firstname']." ".$geschrevenRow['lastname'].",";
         }
-        $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
-    ?>
+    }
+    $auteurs = trim($auteurs,',');
+    $uitgeleendQuery = " 
+        SELECT 
+            *
+        FROM uitgeleend
+        WHERE 
+            bookid = :bookid
+    "; 
+    $uitgeleendQuery_params = array( 
+        ':bookid' => $bookRow['id']
+    ); 
+    try 
+    { 
+        $stmt = $db->prepare($uitgeleendQuery); 
+        $stmt->execute($uitgeleendQuery_params); 
+    } 
+    catch(PDOException $ex) 
+    { 
+        die("Failed to run query (3)"); 
+    }
+    $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $beschikbaar = $bookRow['amount'] - count($uitgeleendRows);
+?>
 
 <div class="topMenu">
     <h1><?php echo $bookRow['title']; ?></h1>
@@ -52,9 +82,9 @@ if($bookRow){
 </div><hr>
 <div>
     <?php 
-        echo "Auteur: ".$authorRow['firstname']." ".$authorRow['lastname']."<br />"; 
+        echo "Auteurs: ".$auteurs."<br />"; 
         echo "ISBN13: ".$bookRow['isbn13']."<br />";
-        echo "Uitgeleend: ".$bookRow['takenby'];
+        echo "Beschikbaar: ".$beschikbaar."/".$bookRow['amount'];
     ?>
 </div>
 <?php

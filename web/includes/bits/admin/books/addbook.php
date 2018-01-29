@@ -1,6 +1,37 @@
 <?php
 if(!empty($_POST)){
     $failed = false;
+    $auteursString = explode(",",$_POST['auteurs']);
+    $auteurs = "";
+    foreach($auteursString as $auteurString){
+        if(!empty($auteurString)){
+            $auteurString = explode(" ",$auteurString);
+            $geschrevenQuery = " 
+                SELECT 
+                    *
+                FROM auteurs
+                WHERE
+                    firstname =:firstname AND lastname =:lastname
+            "; 
+            $geschrevenQuery_params = array( 
+                ':firstname' => $auteurString[0],
+                ':lastname' => $auteurString[1]
+            ); 
+
+            try 
+            { 
+                $stmt = $db->prepare($geschrevenQuery); 
+                $stmt->execute($geschrevenQuery_params); 
+            } 
+            catch(PDOException $ex) 
+            { 
+                die("Failed to run query (5)"); 
+            } 
+            $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            $auteurs.= $geschrevenRow['id'].",";
+        }
+    }
+
     if(empty($_POST['title'])) 
     { 
         $msgEnterTitle = true;
@@ -17,7 +48,7 @@ if(!empty($_POST)){
         $msgEnterDescr = false;
     }
 
-    if(empty($_POST['auteursid'])) 
+    if(empty($_POST['auteurs'])) 
     { 
         $msgEnterAuthor = true;
         $failed = true;
@@ -33,30 +64,12 @@ if(!empty($_POST)){
         $msgEnterISBN = false;
     }
 
-    $auteurListQuery = " 
-        SELECT * FROM auteurs
-        WHERE
-            id = :id
-    ";
-    $auteurQuery_params = array( 
-        ':id' => strip_tags($_POST['auteursid'])
-    );
-
-    try 
-    {
-        $stmt = $db->prepare($auteurListQuery); 
-        $stmt->execute($auteurQuery_params);
-    } 
-    catch(PDOException $ex) 
+    if(empty($_POST['amount'])) 
     { 
-        die("Failed to run query (2)");
-    }
-    $authorRow = $stmt->fetch(PDO::FETCH_ASSOC);
-    if($authorRow){
-        $msgAuthorNotFound = false;
-    }else{
-        $msgAuthorNotFound = true;
+        $msgEnterAMOUNT = true;
         $failed = true;
+    } else{
+        $msgEnterAMOUNT = false;
     }
     
     $msgFailedQuery3 = false;
@@ -67,13 +80,15 @@ if(!empty($_POST)){
                 title, 
                 description,
                 isbn13,
-                auteursid
+                auteurs,
+                amount
             ) VALUES ( 
                 :id,
                 :title, 
                 :description,
                 :isbn13,
-                :auteursid
+                :auteurs,
+                :amount
             ) 
         "; 
         
@@ -84,7 +99,8 @@ if(!empty($_POST)){
             ':title' => strip_tags($_POST['title']), 
             ':description' => strip_tags($_POST['description']),
             ':isbn13' => strip_tags($_POST['isbn13']),
-            ':auteursid' => strip_tags($_POST['auteursid'])
+            ':auteurs' => strip_tags($auteurs),
+            ':amount' => strip_tags($_POST['amount'])
         ); 
         
         try 
@@ -104,9 +120,6 @@ if(!empty($_POST)){
     ?>
 
 <?php if(!empty($_POST)){ ?>
-    <?php if($msgAuthorNotFound){?>
-        <div>Auteur niet gevonden</div>
-    <?php } ?>
     <?php if($msgEnterTitle){?>
         <div>Vul een titel in</div>
     <?php } ?>
@@ -115,6 +128,9 @@ if(!empty($_POST)){
     <?php } ?>
     <?php if($msgEnterISBN){?>
         <div>Vul een ISBN13 nummer in</div>
+    <?php } ?>
+    <?php if($msgEnterAMOUNT){?>
+        <div>Vul een aantal in</div>
     <?php } ?>
     <?php if($msgEnterAuthor){?>
         <div>Vul een auteur in</div>
@@ -131,8 +147,10 @@ if(!empty($_POST)){
     <textarea type="text" id="inputDescription" name="description" rows="20" cols="50" placeholder="Beschrijving"><?php echo !empty($_POST['description']) ? $_POST['description'] : ''; ?></textarea><br />
     <label for="inputISBN">ISBN13</label><br />
     <input type="text" id="inputISBN" name="isbn13" placeholder="ISBN13" value="<?php echo !empty($_POST['isbn13']) ? $_POST['isbn13'] : ''; ?>"><br />
-    <label for="inputAuthor">Auteur</label><br />
-    <?php include "includes/bits/admin/authorlist.php"; ?><br />
+    <label for="inputAmount">Aantal</label><br />
+    <input type="text" id="inputAmount" name="amount" placeholder="Aantal" value="<?php echo !empty($_POST['amount']) ? $_POST['amount'] : ''; ?>"><br />
+    <label for="inputAuthor">Auteurs</label><br />
+    <input type="text" id="inputAuthor" autocomplete="off" name="auteurs" placeholder="Auteurs" value="<?php echo !empty($_POST['auteurs']) ? $_POST['auteurs'] : ''; ?>"><br />
     <button type="submit" onclick="return GetAuthor();" class="add">Toevoegen</button>
     <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
 </form>
