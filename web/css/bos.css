@@ -104,10 +104,23 @@ td[center]{
     float: left;
     min-width:100px;
     width:auto;
-    max-width:155px;
+    max-width:300px;
     margin-left:5px;
     margin-right:5px;
 }
 a > div.rowWrapper:hover{
     color:black;
+}
+.wordwrap{
+    word-break:break-all;
+}
+.panel{
+    width:100%;
+    min-height:150px;
+    border:1px solid blue;
+    margin:5px 0;
+}
+.panelTitle{
+    background-color:lightblue;
+    width:100%;
 }

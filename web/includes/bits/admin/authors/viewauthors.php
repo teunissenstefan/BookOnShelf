@@ -47,7 +47,7 @@ if($numberOfRows == 0){
         echo "<div class='rowWrapper'>";
             echo "<div class='rowChild'><a href='?p=".DisplayGetVar('p')."&action=delete&id={$authorRow['id']}'><button class='delete'>Verwijder</button></a><br/>
                         <a href='?p=".DisplayGetVar('p')."&action=edit&id={$authorRow['id']}'><button class='edit'>Bewerk</button></a></div>";
-            echo "<div class='rowChild title'>{$authorRow['firstname']} {$authorRow['lastname']}</div>";
+            echo "<div class='rowChild title wordwrap'>{$authorRow['firstname']} {$authorRow['lastname']}</div>";
         echo "</div>";
     }
 }

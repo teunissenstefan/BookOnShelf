@@ -73,7 +73,15 @@ if($numberOfRows == 0){
         }
         $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $uitgeleend = count($uitgeleendRows);
-        echo "<div class='rowWrapper'>";
+
+        $panelName = $userRow['firstname']." ".$userRow['lastname'];
+        $panelRank = $userRow['rank'];
+        $panelUsername = $userRow['username'];
+        $panelEmail = $userRow['email'];
+        $panelId = $userRow['id'];
+        include "includes/bits/userpanel.php";
+
+        /*echo "<div class='rowWrapper'>";
             echo "<div class='rowChild'><a href='?p=".DisplayGetVar('p')."&action=delete&id={$userRow['id']}'><button class='delete'>Verwijder</button></a><br/>
                         <a href='?p=".DisplayGetVar('p')."&action=edit&id={$userRow['id']}'><button class='edit'>Bewerk</button></a></div>";
             echo "<div class='rowChild title'>{$userRow['firstname']} {$userRow['lastname']}</div>";
@@ -81,7 +89,7 @@ if($numberOfRows == 0){
             echo "<div class='rowChild'>Gebruikersnaam: {$userRow['username']}</div>";
             echo "<div class='rowChild'>E-mail: {$userRow['email']}</div>";
             echo "<div class='rowChild'>Boeken: {$uitgeleend}</div>";
-        echo "</div>";
+        echo "</div>";*/
     }
 }
 

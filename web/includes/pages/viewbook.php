@@ -75,12 +75,13 @@ if($bookRow){
 ?>
 
 <div class="topMenu">
-    <h1><?php echo $bookRow['title']; ?></h1>
+    <button onclick="window.history.back();">Terug</button>
+    <h1 class="wordwrap"><?php echo $bookRow['title']; ?></h1>
 </div>
-<div>
+<div class="wordwrap">
     <?php echo nl2br($bookRow['description']); ?>
 </div><hr>
-<div>
+<div class="wordwrap">
     <?php 
         echo "Auteurs: ".$auteurs."<br />"; 
         echo "ISBN13: ".$bookRow['isbn13']."<br />";

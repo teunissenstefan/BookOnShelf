@@ -89,15 +89,10 @@ if(isset($_GET['q']) && $_GET['q'] != ""){
             $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $beschikbaar = $bookRow['amount'] - count($uitgeleendRows);
 
-            $descrLengte = 60;
-            $descr = (strlen($bookRow['description']) > $descrLengte) ? substr($bookRow['description'], 0, $descrLengte) . '...' : $bookRow['description'];
-            echo "<a href='?p=viewbook&id={$bookRow['id']}'><div class='rowWrapper'>";
-                echo "<div class='rowChild title'>{$bookRow['title']}</div>";
-                echo "<div class='rowChild'>{$descr}</div>";
-                echo "<div class='rowChild'>Auteurs: {$auteurs}</div>";
-                echo "<div class='rowChild'>ISBN13: {$bookRow['isbn13']}</div>";
-                echo "<div class='rowChild'>Beschikbaar: $beschikbaar/{$bookRow['amount']}</div>";
-            echo "</div></a>";
+            $panelTitle = $bookRow['title'];
+            $panelId = $bookRow['id'];
+            $panelDescr = $bookRow['description'];
+            include "includes/bits/bookpanel.php";
         }
     }
 }

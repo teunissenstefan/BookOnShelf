@@ -45,7 +45,7 @@
         $userRow = $stmt->fetch(PDO::FETCH_ASSOC);
         $numberOfRows = count($userRow);
         if($numberOfRows != 1){
-            echo "{$userRow['lastname']}, {$userRow['firstname']}<br /><hr>";
+            echo "<div class='wordwrap'>{$userRow['lastname']}, {$userRow['firstname']}</div><hr>";
             echo "Weet je zeker dat je deze auteur wilt verwijderen?<br/>";
             echo "<a href='?p=".DisplayGetVar('p')."&action=delete&id={$_GET['id']}&confirm=true'><button class='delete'>Ja</button></a> <a href='?p=".DisplayGetVar('p')."'><button class='edit'>Nee</button></a>";
         }else{

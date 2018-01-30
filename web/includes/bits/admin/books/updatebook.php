@@ -47,7 +47,7 @@ if($numberOfRows != 1){
                     $stmt->execute($geschrevenQuery_params); 
                 } 
                 catch(PDOException $ex) 
-                { 
+                {
                     die("Failed to run query (5)"); 
                 } 
                 $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -153,8 +153,9 @@ if($numberOfRows != 1){
                 die("Failed to run query (3)"); 
             } 
             $uitgeleendRows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if(count($uitgeleendRows) > 0){
-                echo "Uitgeleend:<br/ >";
+            $aantalUitgeleend = count($uitgeleendRows);
+            if($aantalUitgeleend > 0){
+                echo "Uitgeleend ({$aantalUitgeleend}):<br/ >";
                 foreach($uitgeleendRows as $uitgeleendRow){
                     $userQuery = " 
                         SELECT 
