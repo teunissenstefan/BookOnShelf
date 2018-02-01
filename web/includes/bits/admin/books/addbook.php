@@ -150,7 +150,8 @@ if(!empty($_POST)){
     <label for="inputAmount">Aantal</label><br />
     <input type="text" id="inputAmount" name="amount" placeholder="Aantal" value="<?php echo !empty($_POST['amount']) ? $_POST['amount'] : ''; ?>"><br />
     <label for="inputAuthor">Auteurs</label><br />
-    <input type="text" id="inputAuthor" autocomplete="off" name="auteurs" placeholder="Auteurs" value="<?php echo !empty($_POST['auteurs']) ? $_POST['auteurs'] : ''; ?>"><br />
+    <input type="text" id="inputAuthor" autocomplete="off" name="auteurs" placeholder="Auteurs" value="<?php echo !empty($_POST['auteurs']) ? $_POST['auteurs'] : ''; ?>">
+    <a href='?p=manageauthors&action=add&id=n' target="_blank" class="linkbutton add">Auteur toevoegen</a><br />
     <button type="submit" onclick="return GetAuthor();" class="add">Toevoegen</button>
     <a href='?p=<?php echo DisplayGetVar("p"); ?>' class="linkbutton edit">Annuleren</a>
 </form>

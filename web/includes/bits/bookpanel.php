@@ -7,7 +7,7 @@ $descr = (strlen($panelDescr) > $descrLengte) ? mb_substr($panelDescr, 0, $descr
 
 <?php
 if(!$isAdmin){
-    echo "<a href='?p=viewbook&id={$bookRow['id']}'>";
+    echo "<a href='?p=viewbook&id=".$panelId."'>";
 }
 ?>
     <div class="panel">

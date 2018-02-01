@@ -9,6 +9,10 @@
                 <li><a href="?p=manageauthors" class="menuLink">Auteurs beheren</a></li>
                 <li><a href="?p=managebooks" class="menuLink">Boeken beheren</a></li>
         <?php
+                }else{
+        ?>
+                <li><a href="?p=borrowed" class="menuLink">Geleend en gereserveerd</a></li>                
+        <?php
                 }
         ?>
                 <li><a href="?p=changepassword" class="menuLink">Wachtwoord wijzigen</a></li>
