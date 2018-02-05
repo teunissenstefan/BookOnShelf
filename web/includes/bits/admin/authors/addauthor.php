@@ -83,8 +83,8 @@ if(!empty($_POST)){
 
         $query_params = array( 
             ':id' => $idtje, 
-            ':firstName' => strip_tags($_POST['firstname']), 
-            ':lastName' => strip_tags($_POST['lastname'])
+            ':firstName' => trim(strip_tags($_POST['firstname'])), 
+            ':lastName' => trim(strip_tags($_POST['lastname']))
         ); 
         
         try 

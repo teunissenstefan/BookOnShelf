@@ -3,9 +3,13 @@ if(!empty($_POST)){
     $failed = false;
     $auteursString = explode(",",$_POST['auteurs']);
     $auteurs = "";
+    $auteursDieNietBestaan = "";
+    $nietBestaandeAuteurs = false;
     foreach($auteursString as $auteurString){
         if(!empty($auteurString)){
-            $auteurString = explode(" ",$auteurString);
+            $auteurString = explode(" ",trim($auteurString));
+            $auteurVoornaam = isset($auteurString[0]) ? trim($auteurString[0]) : "";
+            $auteurAchternaam = isset($auteurString[1]) ? trim($auteurString[1]) : "";
             $geschrevenQuery = " 
                 SELECT 
                     *
@@ -14,8 +18,8 @@ if(!empty($_POST)){
                     firstname =:firstname AND lastname =:lastname
             "; 
             $geschrevenQuery_params = array( 
-                ':firstname' => $auteurString[0],
-                ':lastname' => $auteurString[1]
+                ':firstname' => $auteurVoornaam,
+                ':lastname' => $auteurAchternaam
             ); 
 
             try 
@@ -24,11 +28,17 @@ if(!empty($_POST)){
                 $stmt->execute($geschrevenQuery_params); 
             } 
             catch(PDOException $ex) 
-            { 
+            {
                 die("Failed to run query (5)"); 
             } 
             $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
-            $auteurs.= $geschrevenRow['id'].",";
+            if($geschrevenRow){
+                $auteurs.= $geschrevenRow['id'].",";
+            }else{
+                $failed = true;
+                $nietBestaandeAuteurs = true;
+                $auteursDieNietBestaan.= "<br/>".$auteurVoornaam." ".$auteurAchternaam;
+            }
         }
     }
 
@@ -120,6 +130,9 @@ if(!empty($_POST)){
     ?>
 
 <?php if(!empty($_POST)){ ?>
+    <?php if($nietBestaandeAuteurs){?>
+        <div>De volgende auteurs bestaan niet:<?php echo $auteursDieNietBestaan; ?></div>
+    <?php } ?>
     <?php if($msgEnterTitle){?>
         <div>Vul een titel in</div>
     <?php } ?>

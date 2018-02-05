@@ -26,9 +26,14 @@ if($numberOfRows != 1){
     if(!empty($_POST)){
         $auteursString = explode(",",$_POST['auteurs']);
         $auteurs = "";
+        $auteursDieNietBestaan = "";
+        $failed = false;
+        $nietBestaandeAuteurs = false;
         foreach($auteursString as $auteurString){
             if(!empty($auteurString)){
-                $auteurString = explode(" ",$auteurString);
+                $auteurString = explode(" ",trim($auteurString));
+                $auteurVoornaam = isset($auteurString[0]) ? trim($auteurString[0]) : "";
+                $auteurAchternaam = isset($auteurString[1]) ? trim($auteurString[1]) : "";
                 $geschrevenQuery = " 
                     SELECT 
                         *
@@ -37,8 +42,8 @@ if($numberOfRows != 1){
                         firstname =:firstname AND lastname =:lastname
                 "; 
                 $geschrevenQuery_params = array( 
-                    ':firstname' => $auteurString[0],
-                    ':lastname' => $auteurString[1]
+                    ':firstname' => $auteurVoornaam,
+                    ':lastname' => $auteurAchternaam
                 ); 
 
                 try 
@@ -51,41 +56,49 @@ if($numberOfRows != 1){
                     die("Failed to run query (5)"); 
                 } 
                 $geschrevenRow = $stmt->fetch(PDO::FETCH_ASSOC);
-                $auteurs.= $geschrevenRow['id'].",";
+                if($geschrevenRow){
+                    $auteurs.= $geschrevenRow['id'].",";
+                }else{
+                    $failed = true;
+                    $nietBestaandeAuteurs = true;
+                    $auteursDieNietBestaan.= "<br/>".$auteurVoornaam." ".$auteurAchternaam;
+                }
             }
         }
 
 
-        $update_query = " 
-            UPDATE boeken 
-            SET
-                title = :title,
-                description = :description,
-                isbn13 = :isbn13,
-                auteurs = :auteurs,
-                amount = :amount
-            WHERE
-                id =:id
-        ";
-        $update_query_params = array( 
-            ':id' => $_GET['id'],
-            ':title' => strip_tags($_POST['title']),
-            ':description' => strip_tags($_POST['description']),
-            ':isbn13' => strip_tags($_POST['isbn13']),
-            ':auteurs' => strip_tags($auteurs),
-            ':amount' => strip_tags($_POST['amount'])
-        ); 
+        if(!$failed){
+            $update_query = " 
+                UPDATE boeken 
+                SET
+                    title = :title,
+                    description = :description,
+                    isbn13 = :isbn13,
+                    auteurs = :auteurs,
+                    amount = :amount
+                WHERE
+                    id =:id
+            ";
+            $update_query_params = array( 
+                ':id' => $_GET['id'],
+                ':title' => strip_tags($_POST['title']),
+                ':description' => strip_tags($_POST['description']),
+                ':isbn13' => strip_tags($_POST['isbn13']),
+                ':auteurs' => strip_tags($auteurs),
+                ':amount' => strip_tags($_POST['amount'])
+            ); 
 
-        try 
-        { 
-            $stmt = $db->prepare($update_query); 
-            $stmt->execute($update_query_params); 
-        } 
-        catch(PDOException $ex) 
-        { 
-            die("Failed to run query (2)"); 
+            try 
+            { 
+                $stmt = $db->prepare($update_query); 
+                $stmt->execute($update_query_params); 
+            } 
+            catch(PDOException $ex) 
+            { 
+                die("Failed to run query (2)"); 
+            }
+            header("Location: ?p=".DisplayGetVar('p'));
         }
-        header("Location: ?p=".DisplayGetVar('p'));
     }
     $auteursString = explode(",",$bookRow['auteurs']);
     $auteurs = "";
@@ -117,6 +130,12 @@ if($numberOfRows != 1){
     }
     $auteurs = trim($auteurs,',');
     ?>
+
+<?php if(!empty($_POST)){ ?>
+    <?php if($nietBestaandeAuteurs){?>
+        <div>De volgende auteurs bestaan niet:<?php echo $auteursDieNietBestaan; ?></div>
+    <?php } ?>
+<?php } ?>
 
     <form action="?p=<?php echo DisplayGetVar('p'); ?>&action=edit&id=<?php echo $_GET['id']; ?>" method="post">
         <label for="inputID">ID</label><br />

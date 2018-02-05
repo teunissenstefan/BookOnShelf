@@ -34,8 +34,8 @@ if($numberOfRows != 1){
         "; 
         $udpate_query_params = array( 
             ':id' => $_GET['id'],
-            ':firstname' => strip_tags($_POST['firstname']),
-            ':lastname' => strip_tags($_POST['lastname'])
+            ':firstname' => trim(strip_tags($_POST['firstname'])),
+            ':lastname' => trim(strip_tags($_POST['lastname']))
         ); 
 
         try 
