@@ -1,33 +1,7 @@
 <?php
     require "includes/connection.php";
     require "includes/functions.php";
-
-    if(!empty($_SESSION['user'])) 
-    { 
-        $sessionId = $_SESSION['user']['id'];
-        include "includes/bits/usersession.php";
-        $sessionFirstName = $_SESSION['user']['firstName'];
-        $sessionLastName = $_SESSION['user']['lastName'];
-        $sessionUsername = $_SESSION['user']['username'];
-        $sessionEmail = $_SESSION['user']['email'];
-        $sessionRank = $_SESSION['user']['rank'];
-
-        $isLoggedIn = true;
-
-        if($sessionRank == 1){
-            $isAdmin = true;
-        }else{
-            $isAdmin = false;
-        }
-    }else{
-        $isLoggedIn = false;
-        $sessionId = "";
-        $sessionFirstName = "";
-        $sessionLastName = "";
-        $sessionUsername = "";
-        $sessionRank = "0";
-        $isAdmin = false;
-    }
+    require "includes/session.php";
 
     if(isset($_GET['p'])){
         $page = $_GET['p'];
@@ -48,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="css/small.css">
     <script src="./js/jquery.js"></script>
     <script src="./js/jquery-ui.min.js"></script>
+    <script src="./js/loadBooks.js"></script>
 </head>
 <body>
     <div class="wrapper">

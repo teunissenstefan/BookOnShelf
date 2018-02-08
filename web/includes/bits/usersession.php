@@ -20,7 +20,7 @@
     { 
         die("Failed to run query (1)"); 
     } 
-    $numberOfRows = count($stmt->fetchAll(PDO::FETCH_ASSOC)); 
+    $numberOfSessionRows = count($stmt->fetchAll(PDO::FETCH_ASSOC)); 
     try 
     { 
         $stmt = $db->prepare($query); 
@@ -31,7 +31,7 @@
         die("Failed to run query (2)"); 
     } 
     $row = $stmt->fetch();
-    if($numberOfRows < 1){
+    if($numberOfSessionRows < 1){
         header("Location: ?p=logout"); 
     }else{
         $_SESSION['user']['firstName'] = $row['firstname'];
